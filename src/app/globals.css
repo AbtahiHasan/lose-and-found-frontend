@@ -44,3 +44,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.my-container {
+  @apply max-w-[1280px] mx-auto px-3;
+}
