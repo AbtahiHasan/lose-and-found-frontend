@@ -5,7 +5,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <main>
       <Navbar />
-      {children}
+      <section className="min-h-[calc(100vh-64px)] mt-[64px]">
+        {children}
+      </section>
     </main>
   );
 };
