@@ -14,14 +14,13 @@ import { useState } from "react";
 import { FaEyeLowVision } from "react-icons/fa6";
 import { FaEye } from "react-icons/fa";
 import Link from "next/link";
-import { loginSchema } from "@/lib/schema";
+import { signUpSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState("password");
-
   const form = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(signUpSchema),
   });
 
   const onSubmit = async (values: any) => {
@@ -30,6 +29,21 @@ const LoginForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="name" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="email"
@@ -81,9 +95,9 @@ const LoginForm = () => {
           Login
         </Button>
         <p>
-          If you are new user?{" "}
-          <Link className="text-sky-500 mt-5 inline-block" href="/sign-up">
-            sign up
+          If you have account?{" "}
+          <Link className="text-sky-500 mt-5 inline-block" href="/login">
+            Login
           </Link>
         </p>
       </form>
@@ -91,4 +105,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;
