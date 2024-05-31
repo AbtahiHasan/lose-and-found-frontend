@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import loseAndFound from "../../public/lose-and-found.png";
+import Image from "next/image";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className + " relative"}>
         <svg
           className="absolute inset-0 -z-10 h-full w-full stroke-gray-100/15 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
           aria-hidden="true"
@@ -41,6 +42,11 @@ export default function RootLayout({
           />
         </svg>
         {children}
+        <Image
+          className="fixed inset-0 -z-10 h-full w-full object-cover opacity-5"
+          src={loseAndFound}
+          alt=""
+        />
       </body>
     </html>
   );

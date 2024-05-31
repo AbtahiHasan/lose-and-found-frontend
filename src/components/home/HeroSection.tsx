@@ -1,6 +1,4 @@
 import Link from "next/link";
-import loseAndFound from "../../../public/lose-and-found.png";
-import Image from "next/image";
 
 const HeroSection = () => {
   return (
@@ -31,11 +29,6 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-        <Image
-          className="absolute inset-0 -z-10 h-full w-full object-cover opacity-5"
-          src={loseAndFound}
-          alt=""
-        />
       </div>
     </section>
   );

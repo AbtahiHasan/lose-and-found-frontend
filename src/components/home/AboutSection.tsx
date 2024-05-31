@@ -2,7 +2,7 @@ import Image from "next/image";
 import loseAndFound from "../../../public/lose-and-found.png";
 const AboutSection = () => {
   return (
-    <section className="my-container mt-[140px]">
+    <section className="my-container mt-[140px] back">
       <h2 className="text-2xl font-bold">About</h2>
       <div className="flex flex-col-reverse lg:grid grid-cols-3 mt-5">
         <div className="col-span-2  md:w-[80%]">
