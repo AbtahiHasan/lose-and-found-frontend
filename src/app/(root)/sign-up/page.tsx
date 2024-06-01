@@ -1,6 +1,8 @@
 import SignUpForm from "@/components/sign-up/SignUpForm";
-import React from "react";
 
+export const metadata = {
+  title: "Sign up - lose and found",
+};
 const SignUpPage = () => {
   return (
     <main className="my-container flex justify-center items-center h-[calc(100vh-64px)] ">

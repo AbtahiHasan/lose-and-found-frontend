@@ -1,5 +1,9 @@
 import LoginForm from "@/components/login/LoginForm";
 
+export const metadata = {
+  title: "Login - lose and found",
+};
+
 const LoginPage = () => {
   return (
     <main className="my-container flex justify-center items-center h-[calc(100vh-64px)] ">

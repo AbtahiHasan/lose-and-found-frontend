@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "./scrollbar.css";
 import loseAndFound from "../../public/lose-and-found.png";
 import Image from "next/image";
 const inter = Inter({ subsets: ["latin"] });
