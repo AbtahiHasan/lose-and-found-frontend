@@ -31,12 +31,12 @@ const SignUpForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="name"
+          name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>username</FormLabel>
               <FormControl>
-                <Input placeholder="name" {...field} />
+                <Input placeholder="username" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -69,6 +69,39 @@ const SignUpForm = () => {
                   <Input
                     type={showPassword}
                     placeholder="password"
+                    {...field}
+                  />
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                    {showPassword === "text" ? (
+                      <FaEyeLowVision
+                        className="cursor-pointer"
+                        onClick={() => setShowPassword("password")}
+                      />
+                    ) : (
+                      <FaEye
+                        className="cursor-pointer"
+                        onClick={() => setShowPassword("text")}
+                      />
+                    )}
+                  </div>
+                </div>
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    type={showPassword}
+                    placeholder="Confirm Password"
                     {...field}
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
