@@ -15,4 +15,8 @@ const signUpSchema = z
     path: ["confirmPassword"],
   });
 
-export { loginSchema, signUpSchema };
+const updateProfileSchema = z.object({
+  username: z.string().min(1).optional(),
+  email: z.string().email().optional(),
+});
+export { loginSchema, signUpSchema, updateProfileSchema };

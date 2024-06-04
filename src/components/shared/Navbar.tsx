@@ -21,6 +21,7 @@ const navigation = [
   { name: "About Us", href: "/about", exact: false },
   { name: "Recent Posts", href: "/recent-posts", exact: false },
   { name: "My Lost Items", href: "/my-lost-items", exact: false },
+  { name: "My Profile", href: "/profile", exact: false },
 ];
 
 const Navbar = ({ user }: { user: any }) => {
