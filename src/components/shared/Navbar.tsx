@@ -20,6 +20,7 @@ const navigation = [
   { name: "Home", href: "/", exact: true },
   { name: "About Us", href: "/about", exact: false },
   { name: "Recent Posts", href: "/recent-posts", exact: false },
+  { name: "Submit the Lost Item", href: "/submit-the-lost-item", exact: false },
   { name: "My Lost Items", href: "/my-lost-items", exact: false },
   { name: "My Profile", href: "/profile", exact: false },
 ];
