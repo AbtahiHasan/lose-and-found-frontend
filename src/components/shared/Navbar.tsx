@@ -6,7 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { NavLink } from "next-js-active-route";
 import logo from "../../../public/logo.svg";
-
+import { MdLogout } from "react-icons/md";
+import man from "../../../public/male.png";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Button } from "../ui/button";
+import { logout } from "@/lib/actions/auth.action";
 const navigation = [
   { name: "Home", href: "/", exact: true },
   { name: "About Us", href: "/about", exact: false },
@@ -14,10 +23,11 @@ const navigation = [
   { name: "My Lost Items", href: "/my-lost-items", exact: false },
 ];
 
-const Navbar = () => {
+const Navbar = ({ user }: { user: any }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [blur, setBlur] = useState(0);
 
+  console.log({ user });
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -32,6 +42,11 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const handleLogout = () => {
+    logout().then(() => {
+      window.location.reload();
+    });
+  };
   return (
     <div className="">
       <header className="fixed inset-x-0 top-0 z-50">
@@ -77,18 +92,50 @@ const Navbar = () => {
             ))}
           </div>
           <div className="hidden lg:flex gap-2 lg:flex-1 lg:justify-end">
-            <Link
-              href="/login"
-              className="rounded-md border-indigo-500 border px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Login <span aria-hidden="true">→</span>
-            </Link>
-            <Link
-              href="/sign-up"
-              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign Up
-            </Link>
+            {!user ? (
+              <>
+                <Link
+                  href="/login"
+                  className="rounded-md border-indigo-500 border px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Login <span aria-hidden="true">→</span>
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Sign Up
+                </Link>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="no">
+                          <Image
+                            className="rounded-full"
+                            src={man}
+                            alt="Profile"
+                            width={32}
+                            height={32}
+                          />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{user?.username}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  <MdLogout
+                    onClick={handleLogout}
+                    className="cursor-pointer text-2xl text-red-600"
+                  />
+                </div>
+              </>
+            )}
           </div>
         </nav>
         <Dialog
@@ -102,8 +149,8 @@ const Navbar = () => {
               <Link href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
                 <Image
-                  height={32}
-                  width={32}
+                  height={42}
+                  width={42}
                   className="h-8 w-auto"
                   src={logo}
                   alt=""

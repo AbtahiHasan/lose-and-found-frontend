@@ -16,16 +16,35 @@ import { FaEye } from "react-icons/fa";
 import Link from "next/link";
 import { loginSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { login } from "@/lib/actions/auth.action";
+import Swal from "sweetalert2";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState("password");
-
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const onSubmit = async (values: any) => {
-    console.log(values);
+    setLoading(true);
+    const res: any = await login(values as any);
+
+    setLoading(false);
+    if (res?.success) {
+      form.reset();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Login successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
   return (
     <Form {...form}>
@@ -77,7 +96,11 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button
+          disabled={loading}
+          type="submit"
+          className={`${loading && "cursor-not-allowed"} w-full`}
+        >
           Login
         </Button>
         <p>

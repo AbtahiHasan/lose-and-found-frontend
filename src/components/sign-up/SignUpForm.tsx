@@ -16,15 +16,37 @@ import { FaEye } from "react-icons/fa";
 import Link from "next/link";
 import { signUpSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signUp } from "@/lib/actions/auth.action";
+import Swal from "sweetalert2";
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState("password");
+  const [loading, setLoading] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const onSubmit = async (values: any) => {
-    console.log(values);
+    setLoading(true);
+    const res: any = await signUp(values as any);
+    setLoading(false);
+    if (res?.success) {
+      form.reset();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Registered successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
   return (
     <Form {...form}>
@@ -124,8 +146,13 @@ const SignUpForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Login
+
+        <Button
+          disabled={loading}
+          type="submit"
+          className={`${loading && "cursor-not-allowed"} w-full`}
+        >
+          Sign Up
         </Button>
         <p>
           If you have account?{" "}
