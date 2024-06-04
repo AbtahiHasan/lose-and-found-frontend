@@ -14,31 +14,40 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login, updateProfile } from "@/lib/actions/auth.action";
+import { changePassword, updateProfile } from "@/lib/actions/auth.action";
 import Swal from "sweetalert2";
-import { updateProfileSchema } from "@/lib/schema/auth.schema";
+import { updatePasswordSchema } from "@/lib/schema/auth.schema";
 
-const EditProfile = ({ user }: { user: any }) => {
+const ChangePassword = () => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(updateProfileSchema),
+    resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
-      username: user?.username,
-      email: user?.email,
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit = async (values: any) => {
     setLoading(true);
-    const res: any = await updateProfile(values as any);
+    const res: any = await changePassword(values as any);
     console.log({ res, values });
     setLoading(false);
     if (res?.success) {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "profile updated successfully!",
+        title: "password updated successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "something went wrong!",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -52,12 +61,12 @@ const EditProfile = ({ user }: { user: any }) => {
       >
         <FormField
           control={form.control}
-          name="username"
+          name="currentPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Current Password</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="username" {...field} />
+                <Input type="text" placeholder="Current Password" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -66,12 +75,26 @@ const EditProfile = ({ user }: { user: any }) => {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input placeholder="email" {...field} />
+                <Input placeholder="New Password" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input placeholder="Confirm Password" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -84,11 +107,11 @@ const EditProfile = ({ user }: { user: any }) => {
           type="submit"
           className={`${loading && "cursor-not-allowed"}`}
         >
-          Save
+          Change Password
         </Button>
       </form>
     </Form>
   );
 };
 
-export default EditProfile;
+export default ChangePassword;

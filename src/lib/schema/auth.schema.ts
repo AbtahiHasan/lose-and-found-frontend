@@ -19,4 +19,15 @@ const updateProfileSchema = z.object({
   username: z.string().min(1).optional(),
   email: z.string().email().optional(),
 });
-export { loginSchema, signUpSchema, updateProfileSchema };
+const updatePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1).optional(),
+    newPassword: z.string().min(1).optional(),
+    confirmPassword: z.string().min(1).optional(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export { loginSchema, signUpSchema, updateProfileSchema, updatePasswordSchema };
