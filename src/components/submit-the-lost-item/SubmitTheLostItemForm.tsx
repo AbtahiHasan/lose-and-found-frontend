@@ -11,15 +11,13 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { FaEyeLowVision } from "react-icons/fa6";
-import { FaEye } from "react-icons/fa";
-import Link from "next/link";
-import { loginSchema } from "@/lib/schema";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login } from "@/lib/actions/auth.action";
+
 import Swal from "sweetalert2";
 import { loseItemSchema } from "@/lib/schema/loseAndFound.schema";
 import { Textarea } from "../ui/textarea";
+import { submitLoseItem } from "@/lib/actions/loseAndFount.action";
 
 const SubmitTheLostItemForm = () => {
   const [showPassword, setShowPassword] = useState("password");
@@ -37,15 +35,23 @@ const SubmitTheLostItemForm = () => {
 
   const onSubmit = async (values: any) => {
     setLoading(true);
-    const res: any = await login(values as any);
-
+    const res: any = await submitLoseItem(values as any);
+    console.log({ res, values });
     setLoading(false);
     if (res?.success) {
       form.reset();
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "Login successfully!",
+        title: "Item submitted successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "something went wrong!",
         showConfirmButton: false,
         timer: 1500,
       });

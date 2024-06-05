@@ -42,6 +42,14 @@ const EditProfile = ({ user }: { user: any }) => {
         showConfirmButton: false,
         timer: 1500,
       });
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "something went wrong!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
   return (
