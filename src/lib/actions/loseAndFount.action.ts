@@ -1,11 +1,12 @@
+import { config } from "@/config";
+
 const getRecentPost = async () => {
-  const response = await fetch(
-    "https://lost-and-found-system-system-backend.onrender.com/api/found-items?sortBy=createdAt&sortOrder=desc",
-    {
-      next: { tags: ["found-items"] },
-    }
-  );
-  return response.json();
+  const res = await fetch(`${config.baseUrl}/lose-item/get-lose-items`, {
+    method: "GET",
+    next: { tags: ["found-items"] },
+  });
+
+  return res.json();
 };
 
 export { getRecentPost };
