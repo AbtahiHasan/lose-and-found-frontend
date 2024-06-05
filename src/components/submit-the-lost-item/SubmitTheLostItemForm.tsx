@@ -13,15 +13,16 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import axios from "axios";
 import Swal from "sweetalert2";
 import { loseItemSchema } from "@/lib/schema/loseAndFound.schema";
 import { Textarea } from "../ui/textarea";
 import { submitLoseItem } from "@/lib/actions/loseAndFount.action";
+import { config } from "@/config";
 
 const SubmitTheLostItemForm = () => {
-  const [showPassword, setShowPassword] = useState("password");
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState(null);
   const form = useForm({
     resolver: zodResolver(loseItemSchema),
     defaultValues: {
@@ -30,24 +31,60 @@ const SubmitTheLostItemForm = () => {
       date: "",
       location: "",
       email: "",
+      image: "",
     },
   });
 
   const onSubmit = async (values: any) => {
-    setLoading(true);
-    const res: any = await submitLoseItem(values as any);
-    console.log({ res, values });
-    setLoading(false);
-    if (res?.success) {
-      form.reset();
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Item submitted successfully!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } else {
+    try {
+      let res = null;
+      setLoading(true);
+      if (file) {
+        const imageFile = {
+          image: file,
+        };
+        console.log({ imageFile });
+        const response = await axios.post(config.imageHostingApi, imageFile, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        });
+        console.log({ response: response.data, suc: response.data?.success });
+        if (response?.data?.success) {
+          console.log({ res: response?.data?.data?.display_url });
+          res = await submitLoseItem({
+            ...values,
+            image: response?.data?.data?.display_url,
+          } as any);
+          setLoading(false);
+        } else {
+          res = await submitLoseItem({
+            ...values,
+            image: "",
+          } as any);
+          setLoading(false);
+        }
+        if (res?.success) {
+          form.reset();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Item submitted successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "something went wrong!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    } catch (error) {
+      setLoading(false);
       Swal.fire({
         position: "center",
         icon: "error",
@@ -100,6 +137,26 @@ const SubmitTheLostItemForm = () => {
               <FormLabel>Location</FormLabel>
               <FormControl>
                 <Input placeholder="Location" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image</FormLabel>
+              <FormControl>
+                <Input
+                  onChange={(e: any) => {
+                    setFile(e.target.files[0]);
+                  }}
+                  type="file"
+                  placeholder="image"
+                />
               </FormControl>
 
               <FormMessage />

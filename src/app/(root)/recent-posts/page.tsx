@@ -19,10 +19,16 @@ const RecentPostsPage = async () => {
             >
               <Image
                 className="w-full h-[200px] rounded-lg bg-[#F3F3F3]"
-                src={loseAndFoundImg}
+                src={
+                  item?.image?.startsWith("https")
+                    ? item?.image
+                    : loseAndFoundImg
+                }
+                width={200}
+                height={200}
                 alt={"image"}
               />
-
+              {item?.image}
               <h2 className="text-[22px] mt-2 font-bold">
                 {item?.foundItemName}
               </h2>
