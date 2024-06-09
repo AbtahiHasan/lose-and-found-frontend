@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const loseItemSchema = z.object({
+const loseAndFoundItemSchema = z.object({
   category: z.string(),
   description: z.string(),
   date: z.string(),
@@ -9,4 +9,4 @@ const loseItemSchema = z.object({
   image: z.any(),
 });
 
-export { loseItemSchema };
+export { loseAndFoundItemSchema };

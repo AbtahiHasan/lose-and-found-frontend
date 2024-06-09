@@ -20,7 +20,8 @@ const navigation = [
   { name: "Home", href: "/", exact: true },
   { name: "About Us", href: "/about", exact: false },
   { name: "Recent Posts", href: "/recent-posts", exact: false },
-  { name: "Submit the Lost Item", href: "/submit-the-lost-item", exact: false },
+  { name: "Submit Lost Item", href: "/submit-the-lost-item", exact: false },
+  { name: "Submit Found Item", href: "/submit-the-found-item", exact: false },
   { name: "My Lost Items", href: "/my-lost-items", exact: false },
   { name: "My Profile", href: "/profile", exact: false },
 ];
@@ -80,7 +81,7 @@ const Navbar = ({ user }: { user: any }) => {
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden lg:flex ">
             {navigation.map((item) => (
               <NavLink
                 key={item.name}
