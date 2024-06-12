@@ -40,18 +40,21 @@ const SubmitTheFoundItemForm = () => {
 
   const onSubmit = async (values: any) => {
     try {
+      console.log({ values });
       let res = null;
       setLoading(true);
       if (file) {
         const imageFile = {
           image: file,
         };
+        alert();
         console.log({ imageFile });
         const response = await axios.post(config.imageHostingApi, imageFile, {
           headers: {
             "content-type": "multipart/form-data",
           },
         });
+
         console.log({ response: response.data, suc: response.data?.success });
         if (response?.data?.success) {
           console.log({ res: response?.data?.data?.display_url });

@@ -1,7 +1,8 @@
-import { getMyLoseItems } from "@/lib/actions/loseAndFount.action";
+import { getMyClaims } from "@/lib/actions/loseAndFount.action";
+import { Badge } from "../ui/badge";
 
 const MyClaimRequests = async () => {
-  const data = await getMyLoseItems();
+  const data = await getMyClaims();
   return (
     <section>
       <table className="w-full border mt-5 mb-5">
@@ -9,7 +10,7 @@ const MyClaimRequests = async () => {
           <tr className="backdrop-blur-sm">
             <th className="p-5 border">SL</th>
             <th className="p-5 border">Description</th>
-            <th className="p-5 border">Location</th>
+            <th className="p-5 border">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -22,10 +23,22 @@ const MyClaimRequests = async () => {
           )}
           {Array.isArray(data?.data) &&
             data?.data?.map((item: any, index: number) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item?.description}</td>
-                <td>{item?.location}</td>
+              <tr className="backdrop-blur-sm" key={index}>
+                <td className="p-5 border text-center">{index + 1}</td>
+                <td className="p-5 border">{item?.description}</td>
+                <td className="p-5 border text-center">
+                  <Badge
+                    className={
+                      item?.status === "pending"
+                        ? "bg-orange-500"
+                        : item?.status === "rejected"
+                        ? "bg-red-500"
+                        : "bg-green-500"
+                    }
+                  >
+                    {item?.status}
+                  </Badge>
+                </td>
               </tr>
             ))}
         </tbody>

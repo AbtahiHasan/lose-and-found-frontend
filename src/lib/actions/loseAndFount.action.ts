@@ -62,6 +62,7 @@ const submitFoundItem = async (
   payload: z.infer<typeof loseAndFoundItemSchema>
 ) => {
   try {
+    console.log(65, { payload });
     const token = await getToken();
 
     const res = await fetch(`${config.baseUrl}/found-item/submit-found-item`, {
@@ -75,6 +76,7 @@ const submitFoundItem = async (
     });
 
     const data = await res.json();
+    console.log(79, { data });
 
     return data;
   } catch (error) {}
@@ -100,10 +102,50 @@ const getMyFoundItems = async () => {
   } catch (error) {}
 };
 
+const claim = async ({ id, description }: any) => {
+  try {
+    const rawFormData = {
+      id,
+      description,
+    };
+    const token = await getToken();
+    const res = await fetch(`${config.baseUrl}/found-item/claim-found-item`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify(rawFormData),
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {}
+};
+const getMyClaims = async () => {
+  try {
+    const token = await getToken();
+    const res = await fetch(`${config.baseUrl}/found-item/get-my-claims`, {
+      method: "GET",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {}
+};
+
 export {
   getRecentPost,
   submitLoseItem,
   getMyLoseItems,
   submitFoundItem,
   getMyFoundItems,
+  claim,
+  getMyClaims,
 };

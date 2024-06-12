@@ -1,4 +1,5 @@
 import { getMyLoseItems } from "@/lib/actions/loseAndFount.action";
+import MyFoundItemSelect from "./MyFoundItemSelect";
 
 const MyFoundItems = async () => {
   const data = await getMyLoseItems();
@@ -26,6 +27,9 @@ const MyFoundItems = async () => {
                 <td>{index + 1}</td>
                 <td>{item?.description}</td>
                 <td>{item?.location}</td>
+                <td>
+                  <MyFoundItemSelect />
+                </td>
               </tr>
             ))}
         </tbody>
