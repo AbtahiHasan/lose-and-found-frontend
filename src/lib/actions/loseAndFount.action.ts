@@ -139,6 +139,22 @@ const getMyClaims = async () => {
     return data;
   } catch (error) {}
 };
+const updateFoundItemStatus = async ({ id, status }: any) => {
+  try {
+    const token = await getToken();
+    const res = await fetch(`${config.baseUrl}/found-item/update-status`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify({ id, status }),
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {}
+};
 
 export {
   getRecentPost,
@@ -148,4 +164,5 @@ export {
   getMyFoundItems,
   claim,
   getMyClaims,
+  updateFoundItemStatus,
 };

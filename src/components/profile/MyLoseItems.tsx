@@ -22,10 +22,10 @@ const MyLoseItems = async () => {
           )}
           {Array.isArray(data?.data) &&
             data?.data?.map((item: any, index: number) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item?.description}</td>
-                <td>{item?.location}</td>
+              <tr className="backdrop-blur-sm" key={index}>
+                <td className="p-5 border">{index + 1}</td>
+                <td className="p-5 border">{item?.description}</td>
+                <td className="p-5 border">{item?.location}</td>
               </tr>
             ))}
         </tbody>

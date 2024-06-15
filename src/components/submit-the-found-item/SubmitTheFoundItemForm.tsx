@@ -47,7 +47,7 @@ const SubmitTheFoundItemForm = () => {
         const imageFile = {
           image: file,
         };
-        alert();
+
         console.log({ imageFile });
         const response = await axios.post(config.imageHostingApi, imageFile, {
           headers: {
@@ -58,7 +58,7 @@ const SubmitTheFoundItemForm = () => {
         console.log({ response: response.data, suc: response.data?.success });
         if (response?.data?.success) {
           console.log({ res: response?.data?.data?.display_url });
-          res = await submitLoseItem({
+          res = await submitFoundItem({
             ...values,
             image: response?.data?.data?.display_url,
           } as any);
